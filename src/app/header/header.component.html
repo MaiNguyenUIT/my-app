@@ -1,10 +1,15 @@
 <nav class="bg-gray-800 text-white p-4">
-    <div class="container mx-auto flex justify-between items-center">
-      <a routerLink="/" class="text-2xl font-bold">My Blog</a>
-      <div>
-        <a routerLink="/" class="px-4 hover:text-gray-300">Home</a>
-        <a routerLink="/blogs" class="px-4 hover:text-gray-300">Blogs</a>
-        <a routerLink="/login" class="px-4 hover:text-gray-300">Login</a>
-      </div>
+  <div class="container mx-auto flex justify-between items-center">
+    <a routerLink="/" class="text-2xl font-bold">My Blog</a>
+
+    <div>
+      <a routerLink="/" class="px-4 hover:text-gray-300">Home</a>
+      <a routerLink="/blogs" class="px-4 hover:text-gray-300">Blogs</a>
+
+      <a *ngIf="!isLoggedIn" routerLink="/login" class="px-4 hover:text-gray-300">Login</a>
+      <a *ngIf="isLoggedIn" routerLink="/user" class="px-4 hover:text-gray-300">{{ userName }}</a>
+      <a *ngIf="isAdmin" routerLink="/users" class="px-4 hover:text-gray-300">Users</a>
+      <button *ngIf="isLoggedIn" routerLink="/home" class="px-4 hover:text-gray-300" (click)="logout()">Logout</button>
     </div>
-  </nav>
+  </div>
+</nav>

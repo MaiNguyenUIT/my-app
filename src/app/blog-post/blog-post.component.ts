@@ -21,7 +21,15 @@ export class BlogPostComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.blog = this.blogService.getBlogById(id);
+    const id = String(this.route.snapshot.paramMap.get('id'));
+    console.log("id", id)
+    this.blogService.getBlogById(id)?.subscribe({
+      next: (data) => {
+        this.blog = data;
+      },
+      error: (err) => {
+        console.error('Failed to load blog:', err);
+      }
+    });
   }
 }
