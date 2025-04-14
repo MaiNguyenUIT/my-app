@@ -1,0 +1,11 @@
+<div class="container mx-auto py-12">
+    <div *ngIf="blog; else notFound">
+      <h2 class="text-3xl font-bold mb-4">{{ blog.title }}</h2>
+      <p class="text-gray-600 mb-6">{{ blog.date }}</p>
+      <p class="text-lg leading-relaxed">{{ blog.content }}</p>
+      <a routerLink="/blogs" class="text-blue-500 hover:underline mt-6 inline-block">Back to Blogs</a>
+    </div>
+    <ng-template #notFound>
+      <p class="text-center text-red-500">Blog post not found.</p>
+    </ng-template>
+  </div>
