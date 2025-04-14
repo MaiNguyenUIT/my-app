@@ -1,22 +1,56 @@
 import { Injectable } from '@angular/core';
 import { Blog } from '../../models/blog';
 import { environment } from '../../../../environment';
+import { HttpClient } from '@angular/common/http';
+import { catchError, Observable } from 'rxjs';
+import { HttpHeaders } from '@angular/common/http';
+import { handleHttpError } from '../../utils/http-error-handler';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BlogService {
   private apiUrl = `${environment.apiUrl}/blogs`;
+  constructor(private http: HttpClient) { }
+
   private blogs: Blog[] = [
-    { id: 1, title: 'First Blog Post', content: 'This is the content of the first blog post.', date: '2025-04-01' },
-    { id: 2, title: 'Second Blog Post', content: 'This is the content of the second blog post.', date: '2025-04-02' },
+    
   ];
 
   getBlogs(): Blog[] {
     return this.blogs;
   }
 
-  getBlogById(id: number): Blog | undefined {
-    return this.blogs.find(blog => blog.id === id);
+  getBlogById(id: String): Observable<any> | undefined {
+    const token = localStorage.getItem('jwt');
+  
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.get(`${this.apiUrl}/${id}`, { headers });
+  }
+
+  getUserBlogs(): Observable<any> {
+    const token = localStorage.getItem('jwt');
+  
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    if(localStorage.getItem('role') == "admin"){
+      return this.http.get(`${this.apiUrl}`, { headers });
+    } else {
+      return this.http.get(`${this.apiUrl}/user`, { headers });
+    }
+  }
+
+  postBlog(blogData: { content: string, title: string, priority: number }) : Observable<any> {
+    const token = localStorage.getItem('jwt');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.post(`${this.apiUrl}`, blogData , {headers}) ;
+  }
+
+  updateBlog(blogData: { content: string, title: string, priority: number }, id : string) : Observable<any> {
+    const token = localStorage.getItem('jwt');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.put(`${this.apiUrl}/${id}`, blogData , {headers}).pipe(
+      catchError(handleHttpError)
+    ) ;
   }
 }

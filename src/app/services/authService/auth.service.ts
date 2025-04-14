@@ -1,42 +1,46 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, throwError } from 'rxjs';
+import { environment } from '../../../../environment';
+import { HttpClient } from '@angular/common/http';
+import { catchError, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
+import { isPlatformBrowser } from '@angular/common';
+import { handleHttpError } from '../../utils/http-error-handler';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private users: { username: string, password: string }[] = [];
 
-  register(username: string, password: string): Observable<boolean> {
-    // Check if user already exists
-    if (this.users.some(user => user.username === username)) {
-      return throwError(() => new Error('Username already exists'));
-    }
-    this.users.push({ username, password });
-    localStorage.setItem('users', JSON.stringify(this.users));
-    return of(true);
+  private apiUrl = `${environment.apiUrl}/auth`;
+  constructor(private http: HttpClient) { }
+
+  login(credentials: { username: string; password: string }): Observable<any> {
+    return this.http.post<{ data: { jwt: string } }>(`${this.apiUrl}/login`, credentials).pipe(
+      tap(response => {
+        localStorage.setItem('jwt', response.data.jwt); 
+      }),
+      catchError(handleHttpError)
+    );
   }
 
-  login(username: string, password: string): Observable<boolean> {
-    this.users = JSON.parse(localStorage.getItem('users') || '[]');
-    const user = this.users.find(user => user.username === username && user.password === password);
-    if (user) {
-      localStorage.setItem('currentUser', JSON.stringify(user));
-      return of(true);
-    }
-    return throwError(() => new Error('Invalid username or password'));
+
+  register(userData: { username: string, email: string, password: string }): Observable<any> {
+    return this.http.post(`${this.apiUrl}/register`, userData).pipe(
+      catchError(handleHttpError)
+    );
   }
 
-  logout(): void {
-    localStorage.removeItem('currentUser');
+  logout() {
+    localStorage.removeItem('jwt');
+  }
+
+  getJwt(): string | null {
+    return localStorage.getItem('jwt');
   }
 
   isLoggedIn(): boolean {
-    return !!localStorage.getItem('currentUser');
+    return !!localStorage.getItem('jwt');
   }
 
-  getCurrentUser(): { username: string, password: string } | null {
-    const user = localStorage.getItem('currentUser');
-    return user ? JSON.parse(user) : null;
-  }
 }

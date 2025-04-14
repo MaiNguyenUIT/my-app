@@ -1,8 +1,9 @@
 <div class="container mx-auto py-12">
     <div *ngIf="blog; else notFound">
       <h2 class="text-3xl font-bold mb-4">{{ blog.title }}</h2>
-      <p class="text-gray-600 mb-6">{{ blog.date }}</p>
+      <p class="text-gray-600 mb-6">{{ blog.createdDate }}</p>
       <p class="text-lg leading-relaxed">{{ blog.content }}</p>
+      <a routerLink="/blog/edit/{{ blog.id }}" class="text-red-500 px-4 hover:text-gray-300">Edit Blog</a>
       <a routerLink="/blogs" class="text-blue-500 hover:underline mt-6 inline-block">Back to Blogs</a>
     </div>
     <ng-template #notFound>
