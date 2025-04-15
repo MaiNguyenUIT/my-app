@@ -8,7 +8,7 @@
 
       <a *ngIf="!isLoggedIn" routerLink="/login" class="px-4 hover:text-gray-300">Login</a>
       <a *ngIf="isLoggedIn" routerLink="/user" class="px-4 hover:text-gray-300">{{ userName }}</a>
-      <a *ngIf="isAdmin" routerLink="/users" class="px-4 hover:text-gray-300">Users</a>
+      <a *ngIf="isAdmin && isLoggedIn" routerLink="/users" class="px-4 hover:text-gray-300">Users</a>
       <button *ngIf="isLoggedIn" routerLink="/home" class="px-4 hover:text-gray-300" (click)="logout()">Logout</button>
     </div>
   </div>

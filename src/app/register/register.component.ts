@@ -29,8 +29,8 @@ export class RegisterComponent {
     }
     
     this.authService.register(this.registerModel).subscribe({
-      next : () => {
-        window.alert('Register successfully');
+      next : (res) => {
+        window.alert(res);
       },
     })
   }

@@ -3,7 +3,7 @@ import { Blog } from '../../models/blog';
 import { environment } from '../../../../environment';
 import { HttpClient } from '@angular/common/http';
 import { catchError, Observable } from 'rxjs';
-import { HttpHeaders } from '@angular/common/http';
+import { HttpHeaders, HttpParams } from '@angular/common/http';
 import { handleHttpError } from '../../utils/http-error-handler';
 
 @Injectable({
@@ -40,6 +40,18 @@ export class BlogService {
     }
   }
 
+  getPublicBlogs(): Observable<any> {
+    const token = localStorage.getItem('jwt');
+  
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    if(localStorage.getItem('role') == "admin"){
+      return this.http.get(`${this.apiUrl}`, { headers });
+    } else {
+      console.log("run")
+      return this.http.get(`${this.apiUrl}/public`, { headers });
+    }
+  }
+
   postBlog(blogData: { content: string, title: string, priority: number }) : Observable<any> {
     const token = localStorage.getItem('jwt');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
@@ -50,6 +62,16 @@ export class BlogService {
     const token = localStorage.getItem('jwt');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.put(`${this.apiUrl}/${id}`, blogData , {headers}).pipe(
+      catchError(handleHttpError)
+    ) ;
+  }
+
+  publicBlog(id : string[], isPublic : boolean) : Observable<any>{
+    const token = localStorage.getItem('jwt');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    const params = new HttpParams().set('isPublic', isPublic.toString());
+    console.log(id)
+    return this.http.put(`${this.apiUrl}/public`, id , {headers, params}).pipe(
       catchError(handleHttpError)
     ) ;
   }

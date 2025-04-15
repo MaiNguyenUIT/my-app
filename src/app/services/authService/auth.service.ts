@@ -26,7 +26,7 @@ export class AuthService {
 
 
   register(userData: { username: string, email: string, password: string }): Observable<any> {
-    return this.http.post(`${this.apiUrl}/register`, userData).pipe(
+    return this.http.post(`${this.apiUrl}/register`, userData, { responseType: 'text' }).pipe(
       catchError(handleHttpError)
     );
   }

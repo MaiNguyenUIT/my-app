@@ -47,6 +47,7 @@ export class HeaderComponent implements OnInit {
           this.isAdmin = true
         }  else {
           localStorage.setItem('role', "user")
+          this.isAdmin = false
         }
       },
       error: (err) => {

@@ -1,7 +1,8 @@
-export interface Blog {
+export interface BlogResponse {
     id: string;
     title: string;
     content: string;
     createdDate: string;
-    public : boolean
+    userName : string;
+    userAvatar : string;
   }
