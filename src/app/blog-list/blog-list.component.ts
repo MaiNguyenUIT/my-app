@@ -29,14 +29,17 @@ export class BlogListComponent implements OnInit {
   }
 
 setPublic(status: boolean) {
-  this.blogService.publicBlog(this.getSelectedBlogIds(), status).subscribe({
-    next: () => {
-      console.log('Public blogs updated!');
-    },
-    error: (err) => {
-      console.error('Failed to update:', err);
-    }
-  });
+  const confirmed = window.confirm(`Bạn có chắc chắn muốn public các blog đã chọn?`);
+  if(confirmed){
+    this.blogService.publicBlog(this.getSelectedBlogIds(), status).subscribe({
+      next: () => {
+        console.log('Public blogs updated!');
+      },
+      error: (err) => {
+        console.error('Failed to update:', err);
+      }
+    });
+  }
 }
 
 getSelectedBlogIds(): string[] {

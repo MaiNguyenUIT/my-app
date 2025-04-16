@@ -50,4 +50,11 @@ export class UserService {
   
     return this.http.get(`${this.notiUrl}`, { headers });
   }
+
+  uploadImage(formData : FormData) : Observable<any> {
+    const token = localStorage.getItem('jwt');
+  
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.put(`${this.apiUrl}/avatar`, formData, { headers });
+  }
 }
