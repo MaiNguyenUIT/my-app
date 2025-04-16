@@ -7,6 +7,16 @@
           <p class="text-gray-600 mb-4">{{ blog.createdDate }}</p>
           <a routerLink="/blog/{{ blog.id }}" class="text-blue-500 hover:underline">Read More</a>
           <input class="absolute top-2 right-2" [(ngModel)]="blog.public" type="checkbox"/>
+
+          <button (click)="deleteBlog(blog)" 
+                    class="absolute bottom-2 right-2 p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-full transition-colors duration-150 cursor-pointer"
+                    title="Delete Blog">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5-4h4"/>
+              </svg>
+            </button>
+
         </div>
       </div>
     </div>

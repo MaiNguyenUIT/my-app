@@ -21,8 +21,7 @@ export class PublicBlogFeedComponent {
     ngOnInit(): void {
       this.blogService.getPublicBlogs().subscribe({
         next: (data) => 
-          {this.blogs = data,
-            console.log(this.blogs)},
+          {this.blogs = data},
         
         error: (err) => console.error(err)
       });

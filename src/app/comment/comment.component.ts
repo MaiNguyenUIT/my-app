@@ -34,9 +34,23 @@ export class CommentComponent {
     this.commentService.getBlogComment(this.blogId).subscribe({
       next : (data) => {
         this.comments = data;
-        console.log(data);
       },
     })
   }
+
+  deleteComment(comment : CommentResponse) {
+      const confirmed = window.confirm(`Bạn có chắc chắn muốn xóa comment ${comment.content}?`);
+  
+      if (confirmed) {
+        this.commentService.deleteBlogComment(comment.id).subscribe({
+          next: () => {
+
+          },
+          error: err => {
+            
+          }
+        });
+      }
+    }
 
 }

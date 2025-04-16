@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { UserService } from '../services/userService/user.service';
+import { RouterModule } from '@angular/router';
+import { User } from '../models/user';
 
 @Component({
   selector: 'app-user-info',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './user-info.component.html',
   styleUrl: './user-info.component.css'
 })
@@ -27,4 +29,5 @@ export class UserInfoComponent {
       }
     });
   }
+
 }

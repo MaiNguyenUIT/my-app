@@ -12,6 +12,7 @@ import { handleHttpError } from '../../utils/http-error-handler';
 export class CommentService {
 
   private apiUrl = `${environment.apiUrl}/blogs`;
+  private commentApiUrl = `${environment.apiUrl}/comments`;
   constructor(private http: HttpClient) { }
 
   getBlogComment(blogId : string): Observable<any> {
@@ -26,5 +27,14 @@ export class CommentService {
   
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.post(`${this.apiUrl}/${blogId}/comments`, commentData, { headers });
+  }
+
+  deleteBlogComment(commentId : String) : Observable<any> {
+    const token = localStorage.getItem('jwt');
+  
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.delete(`${this.commentApiUrl}/${commentId}`, { headers }).pipe(
+      catchError(handleHttpError)
+    );
   }
 }

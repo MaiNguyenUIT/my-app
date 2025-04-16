@@ -5,4 +5,5 @@ export interface BlogResponse {
     createdDate: string;
     userName : string;
     userAvatar : string;
+    isPublic : string
   }

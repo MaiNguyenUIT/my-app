@@ -4,6 +4,7 @@ import { CommonModule, DOCUMENT } from '@angular/common';
 import { UserService } from '../services/userService/user.service';
 import { AuthService } from '../services/authService/auth.service';
 import { filter } from 'rxjs/operators';
+import { Notification } from '../models/notification';
 
 @Component({
   selector: 'app-header',
@@ -16,6 +17,8 @@ export class HeaderComponent implements OnInit {
   userName : string = ''
   isLoggedIn: boolean = false;
   isAdmin: boolean = false;
+  notifications : Notification[] = [];
+  showNotifications = false;
 
   constructor(private userService: UserService,
     private router : Router
@@ -61,5 +64,17 @@ export class HeaderComponent implements OnInit {
     localStorage.removeItem('role');
     this.isLoggedIn = false;
     this.userName = '';
+  }
+
+  toggleNotifications() {
+    this.userService.getNotification().subscribe({
+      next : (data) => {
+        this.notifications = data;;
+      },
+      error: (err) => {
+        console.error('Load notification fail', err);
+      }
+    })
+    this.showNotifications = !this.showNotifications;
   }
 }

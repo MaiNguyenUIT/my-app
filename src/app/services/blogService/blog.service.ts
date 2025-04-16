@@ -75,4 +75,12 @@ export class BlogService {
       catchError(handleHttpError)
     ) ;
   }
+
+  deleteBlog(id : string) : Observable<any>{ 
+    const token = localStorage.getItem('jwt');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.delete(`${this.apiUrl}/${id}`, {headers}).pipe(
+      catchError(handleHttpError)
+    ) ;
+  }
 }

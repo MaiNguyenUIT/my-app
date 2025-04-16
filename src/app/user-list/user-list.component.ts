@@ -21,7 +21,6 @@ export class UserListComponent {
       next: (data) => this.users = data,
       error: (err) => console.error(err)
     });
-    console.log(this.users)
   }
 
   editUser(user : User) {
@@ -29,6 +28,18 @@ export class UserListComponent {
   }
 
   deleteUser(user : User) {
+    const confirmed = window.confirm(`Bạn có chắc chắn muốn xóa người dùng ${user.username}?`);
 
+    if (confirmed) {
+      this.userService.deleteUser(user.id).subscribe({
+        next: () => {
+          
+        
+        },
+        error: err => {
+          
+        }
+      });
+    }
   }
 }

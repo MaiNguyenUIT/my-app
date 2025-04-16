@@ -21,8 +21,7 @@ export class BlogListComponent implements OnInit {
   ngOnInit(): void {
     this.blogService.getUserBlogs().subscribe({
       next: (data) => 
-        {this.blogs = data,
-          console.log(this.blogs)},
+        {this.blogs = data},
       
       error: (err) => console.error(err)
     });
@@ -49,5 +48,21 @@ getSelectedBlogIds(): string[] {
 setAllPublic() {
   this.selectAll = !this.selectAll;
   this.blogs.forEach(blog => blog.public = this.selectAll);
+}
+
+deleteBlog(blog : Blog) {
+  const confirmed = window.confirm(`Bạn có chắc chắn muốn xóa blog ${blog.content}?`);
+
+    if (confirmed) {
+      this.blogService.deleteBlog(blog.id).subscribe({
+        next: () => {
+          
+        
+        },
+        error: err => {
+          
+        }
+      });
+    }
 }
 }
