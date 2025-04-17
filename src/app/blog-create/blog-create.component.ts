@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { BlogService } from '../services/blogService/blog.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-blog-create',
@@ -17,11 +18,13 @@ export class BlogCreateComponent {
     priority : 0
   };
 
-  constructor(private blogService : BlogService) {}
+  constructor(private blogService : BlogService,
+    private router : Router
+  ) {}
   onSubmit() {
     this.blogService.postBlog(this.blog).subscribe({
       next : () => {
-        window.alert('Post blog successfully');
+        this.router.navigate(['/blog-feed'])
       },
     })
   }

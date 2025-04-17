@@ -23,12 +23,8 @@ export class UserListComponent {
     });
   }
 
-  editUser(user : User) {
-    
-  }
-
   deleteUser(user : User) {
-    const confirmed = window.confirm(`Bạn có chắc chắn muốn xóa người dùng ${user.username}?`);
+    const confirmed = window.confirm(`Are you sure you want to delete this user ${user.username}?`);
 
     if (confirmed) {
       this.userService.deleteUser(user.id).subscribe({

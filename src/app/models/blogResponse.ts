@@ -6,4 +6,5 @@ export interface BlogResponse {
     userName : string;
     userAvatar : string;
     isPublic : string
+    expanded? : boolean
   }

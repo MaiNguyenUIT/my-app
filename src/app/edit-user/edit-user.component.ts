@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../services/userService/user.service';
 import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-edit-user',
@@ -20,13 +21,14 @@ export class EditUserComponent {
 
   constructor(private userService : UserService,
     private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   onSubmit() {
     const id = String(this.route.snapshot.paramMap.get('id'));
     this.userService.updateUser(this.user, id).subscribe({
       next : () => {
-        window.alert('Update user successfully');
+        this.router.navigate(['/users']);
       },
     })
   }

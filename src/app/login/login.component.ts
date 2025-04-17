@@ -25,7 +25,6 @@ export class LoginComponent {
   onLogin() {
     this.authService.login(this.loginModel).subscribe({
       next: (user) => {
-        window.alert('Login successfully');
         this.router.navigate(['/home']);
       },
       error: (err) => {

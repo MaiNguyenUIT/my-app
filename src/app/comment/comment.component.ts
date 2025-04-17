@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Route, Router, RouterModule } from '@angular/router';
 import { CommentResponse } from '../models/commentResponse';
 import { CommentService } from '../services/commentService/comment.service';
 
@@ -19,13 +19,15 @@ export class CommentComponent {
     content: ''
   };
   newComment : string = ''
-  constructor(private commentService : CommentService) {}
+  constructor(private commentService : CommentService,
+    private router : Router
+  ) {}
 
   postComment() {
     this.comment.content = this.newComment
     this.commentService.createBlogComment(this.comment, this.blogId).subscribe({
       next : () => {
-        window.alert("Comment successfully");
+        this.router.navigate(['/blog-feed'])
       }
     })
   }
@@ -39,7 +41,7 @@ export class CommentComponent {
   }
 
   deleteComment(comment : CommentResponse) {
-      const confirmed = window.confirm(`Bạn có chắc chắn muốn xóa comment ${comment.content}?`);
+      const confirmed = window.confirm(`Are you sure you want to delete comment ${comment.content}?`);
   
       if (confirmed) {
         this.commentService.deleteBlogComment(comment.id).subscribe({

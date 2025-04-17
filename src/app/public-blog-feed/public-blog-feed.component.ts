@@ -15,18 +15,21 @@ import { CommentComponent } from '../comment/comment.component';
 })
 export class PublicBlogFeedComponent {
   blogs: BlogResponse[] = [];
-
+  
   constructor(private blogService: BlogService) {}
   
-    ngOnInit(): void {
-      this.blogService.getPublicBlogs().subscribe({
-        next: (data) => 
-          {this.blogs = data},
-        
-        error: (err) => console.error(err)
-      });
-      
-    }
+  ngOnInit(): void {
+    this.blogService.getPublicBlogs().subscribe({
+      next: (data) => {
+        this.blogs = data.map((blog: BlogResponse) => ({
+          ...blog,
+          expanded: false // add expanded flag for toggle behavior
+        }));
+      },
+      error: (err) => console.error(err)
+    });
+  }
+  
 
     postComment(id : String, comment : string) {
 

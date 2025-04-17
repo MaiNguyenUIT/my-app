@@ -58,7 +58,7 @@ export class BlogService {
     return this.http.post(`${this.apiUrl}`, blogData , {headers}) ;
   }
 
-  updateBlog(blogData: { content: string, title: string, priority: number }, id : string) : Observable<any> {
+  updateBlog(blogData: { content: string, title: string, priority: number, public : boolean }, id : string) : Observable<any> {
     const token = localStorage.getItem('jwt');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.put(`${this.apiUrl}/${id}`, blogData , {headers}).pipe(
@@ -66,12 +66,11 @@ export class BlogService {
     ) ;
   }
 
-  publicBlog(id : string[], isPublic : boolean) : Observable<any>{
+  updateBlogStatus(blog : Blog[], isPublic : string) : Observable<any>{
     const token = localStorage.getItem('jwt');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const params = new HttpParams().set('isPublic', isPublic.toString());
-    console.log(id)
-    return this.http.put(`${this.apiUrl}/public`, id , {headers, params}).pipe(
+    const params = new HttpParams().set('isPublic', isPublic);
+    return this.http.put(`${this.apiUrl}/public`, blog , {headers, params}).pipe(
       catchError(handleHttpError)
     ) ;
   }
