@@ -1,6 +1,8 @@
 export interface Blog {
-    id: number;
+    id: string;
     title: string;
     content: string;
-    date: string;
+    userId : string;
+    createdDate: string;
+    public : boolean
   }
